@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres
+    volumes:
+      - db:/var/lib/postgresql
+    environment:
+      - POSTGRES_PASSWORD=password
+    env_file:
+      - .env
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - app-data:/build
+    environment:
+      - POSTGRES_PASSWORD=password
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+      - "127.0.0.1:222:22"
+    depends_on:
+      - db
+
+volumes:
+  db:
+  app-data:
+  # https-portal:
+  #   image: steveltn/https-portal:1
+  #   ports:
+  #     - '80:80'
+  #     - '443:443'
+  #   restart: always
+  #   environment:
+  #     DOMAINS: 'marsh-all.autonomous.rodeo -> http://web:3000' # unsure about this
+  #     STAGE: 'production'
+  #   volumes: 
+  #     - ./https-portal-data:/var/lib/https-portal
