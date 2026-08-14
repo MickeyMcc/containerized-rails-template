@@ -4,16 +4,14 @@ services:
     volumes:
       - db:/var/lib/postgresql
     environment:
-      - POSTGRES_PASSWORD=password
-    env_file:
-      - .env
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - app-data:/build
-    environment:
-      - POSTGRES_PASSWORD=password
     env_file:
       - .env
     ports:
@@ -21,10 +19,6 @@ services:
       - "127.0.0.1:222:22"
     depends_on:
       - db
-
-volumes:
-  db:
-  app-data:
   # https-portal:
   #   image: steveltn/https-portal:1
   #   ports:
@@ -36,3 +30,11 @@ volumes:
   #     STAGE: 'production'
   #   volumes: 
   #     - ./https-portal-data:/var/lib/https-portal
+
+secrets:
+  postgres_password:
+    file: secrets/postgres_password.txt
+
+volumes:
+  db:
+  app-data:
