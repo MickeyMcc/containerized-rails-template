@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { minimum: 3, maximum: 50 }, 
                         format: { with: /\A[a-zA-Z0-9_-]+\z/, message: "only allows letters, numbers, underscores and hyphens" }
   validates :password, presence: true, length: { minimum: 8, maximum: 128 }, if: :new_record?
-  validates :password, length: { minimum: 8, maximum: 128 }, if: :password.present?, allow_nil: true
+  validates :password, length: { minimum: 8, maximum: 128 }, if: ->(user) { user.password.present? }, allow_nil: true
 
   private
 
