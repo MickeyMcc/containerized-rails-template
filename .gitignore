@@ -36,3 +36,7 @@
 # Ignore secrets files
 /secrets/*
 
+# Ignore local certs
+!/https-portal-data/
+/https-portal-data/*
+

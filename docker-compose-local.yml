@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres
+    volumes:
+      - db:/var/lib/postgresql
+    environment:
+      POSTGRES_PASSWORD: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: always
+    environment:
+      DOMAINS: 'local.homepage'
+      STAGE: 'local'
+    volumes: 
+      - ./https-portal-data:/var/lib/https-portal
+
+secrets:
+  postgres_password:
+    file: secrets/postgres_password.txt
+
+volumes:
+  db:
+  app-data:

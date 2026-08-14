@@ -19,17 +19,17 @@ services:
       - "127.0.0.1:222:22"
     depends_on:
       - db
-  # https-portal:
-  #   image: steveltn/https-portal:1
-  #   ports:
-  #     - '80:80'
-  #     - '443:443'
-  #   restart: always
-  #   environment:
-  #     DOMAINS: 'marsh-all.autonomous.rodeo -> http://web:3000' # unsure about this
-  #     STAGE: 'production'
-  #   volumes: 
-  #     - ./https-portal-data:/var/lib/https-portal
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: always
+    environment:
+      DOMAINS: 'marsh-all.autonomous.rodeo -> http://web:3000' # unsure about this
+      STAGE: 'production'
+    volumes: 
+      - ./https-portal-data:/var/lib/https-portal
 
 secrets:
   postgres_password:
