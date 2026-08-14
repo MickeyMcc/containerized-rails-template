@@ -1,3 +1,5 @@
+<%= render "shared/lost_and_found_nav" %>
+
 <div class="lost-and-found-items">
   <h2>Lost & Found Items</h2>
   
@@ -20,7 +22,7 @@
           <div class="item-actions">
             <%= link_to "View", item, class: "btn btn-sm btn-info" %>
             <% if item.unfound? && item.reported_by_user_id != current_user.id %>
-              <%= link_to "Mark as Found", mark_found_lost_and_found_item_path(item), method: :patch, class: "btn btn-sm btn-success" %>
+              <%= button_to "Mark as Found", mark_found_lost_and_found_item_path(item), method: :post, class: "btn btn-sm btn-success" %>
             <% end %>
           </div>
         </div>

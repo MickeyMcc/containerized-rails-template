@@ -1,11 +1,14 @@
-<h1>Dashboard</h1>
-<p>Welcome, <%= current_user.username %></p>
-<p> here is secure content </p>
+<%= render "shared/lost_and_found_nav" %>
+
+<div class="dashboard-header">
+  <h1>Dashboard</h1>
+  <p>Welcome, <%= current_user.username %></p>
+</div>
 
 <div class="dashboard-widgets">
   <div class="widget lost-and-found-widget">
     <h2>Lost & Found</h2>
-    
+    <p>Report things you are missing.  If you find something and can't return it directly to owner, take to lost and found in the barn.</p>
     <div class="widget-section">
       <h3>All Unfound Items</h3>
       <div class="items-list">
@@ -18,7 +21,7 @@
               <p class="description"><%= truncate(item.description, length: 80) %></p>
               <p class="meta"><strong>Location:</strong> <%= item.location %> | <strong>Reported by:</strong> <%= item.reported_by_user.username %></p>
               <% if item.reported_by_user_id != current_user.id %>
-                <%= link_to "Mark as Found", mark_found_lost_and_found_item_path(item), method: :patch, class: "btn btn-sm btn-success" %>
+                <%= button_to "Mark as Found", mark_found_lost_and_found_item_path(item), method: :post, class: "btn btn-sm btn-success" %>
               <% end %>
               <%= link_to "View", lost_and_found_item_path(item), class: "btn btn-sm btn-info" %>
             </div>

@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
   resources :lost_and_found_items do
     member do
-      patch :mark_found
+      post :mark_found
     end
   end
 end

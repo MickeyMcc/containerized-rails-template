@@ -11,4 +11,12 @@ class LostAndFoundItem < ApplicationRecord
   scope :unfound, -> { where(status: "unfound") }
   scope :found, -> { where(status: "found") }
   scope :reported_by, ->(user) { where(reported_by_user_id: user.id) }
+
+  def found?
+    status == "found"
+  end
+
+  def unfound?
+    status == "unfound"
+  end
 end
