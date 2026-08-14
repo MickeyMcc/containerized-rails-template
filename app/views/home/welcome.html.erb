@@ -1,11 +1,17 @@
-<nav>
-  <ul>
-    <li><strong>Simple Auth App</strong></li>
-  </ul>
-  <ul>
-    <li><a href="/sign_up">Sign up</a></li>
-    <li><a href="/login">Sign in</a></li>
-  </ul>
-</nav>
+<div class="home-container">
+  <nav class="home-nav">
+    <h1>Lost & Found</h1>
+    <div class="nav-links">
+      <%= link_to "Sign In", login_path, class: "btn btn-secondary" %>
+      <%= link_to "Sign Up", sign_up_path, class: "btn btn-primary" %>
+    </div>
+  </nav>
 
-<h1>Homepage</h1>
+  <main class="home-content">
+    <h2>Welcome to Lost & Found</h2>
+    <p>A community board to help find lost items and reunite them with their owners.</p>
+    <div class="cta-buttons">
+      <%= link_to "Get Started", sign_up_path, class: "btn btn-primary btn-large" %>
+    </div>
+  </main>
+</div>

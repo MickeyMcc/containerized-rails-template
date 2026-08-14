@@ -32,5 +32,3 @@ class LostAndFoundItem < ApplicationRecord
     self.location = location.to_s.strip if location.present?
   end
 end
-  end
-end
