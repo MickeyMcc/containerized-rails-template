@@ -1,0 +1,50 @@
+<div class="item-detail">
+  <div class="item-header">
+    <h1><%= @item.title %></h1>
+    <span class="status-badge <%= @item.status %>"><%= @item.status.upcase %></span>
+  </div>
+
+  <div class="item-content">
+    <div class="item-info">
+      <div class="info-group">
+        <label>Description:</label>
+        <p><%= simple_format(@item.description) %></p>
+      </div>
+
+      <div class="info-group">
+        <label>Location:</label>
+        <p><%= @item.location %></p>
+      </div>
+
+      <div class="info-group">
+        <label>Reported by:</label>
+        <p><%= @item.reported_by_user.username %></p>
+      </div>
+
+      <% if @item.found? && @item.found_by_user %>
+        <div class="info-group">
+          <label>Found by:</label>
+          <p><%= @item.found_by_user.username %></p>
+        </div>
+      <% end %>
+
+      <div class="info-group">
+        <label>Posted:</label>
+        <p><%= @item.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      </div>
+    </div>
+
+    <div class="item-actions">
+      <% if @item.reported_by_user_id == current_user.id %>
+        <%= link_to "Edit", edit_lost_and_found_item_path(@item), class: "btn btn-primary" %>
+        <%= link_to "Delete", @item, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+      <% end %>
+
+      <% if @item.unfound? && @item.reported_by_user_id != current_user.id %>
+        <%= link_to "Mark as Found", mark_found_lost_and_found_item_path(@item), method: :patch, class: "btn btn-success" %>
+      <% end %>
+
+      <%= link_to "Back to Items", lost_and_found_items_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

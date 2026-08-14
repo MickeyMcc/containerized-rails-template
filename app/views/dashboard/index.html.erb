@@ -1,3 +1,62 @@
 <h1>Dashboard</h1>
 <p>Welcome, <%= current_user.username %></p>
 <p> here is secure content </p>
+
+<div class="dashboard-widgets">
+  <div class="widget lost-and-found-widget">
+    <h2>Lost & Found</h2>
+    
+    <div class="widget-section">
+      <h3>All Unfound Items</h3>
+      <div class="items-list">
+        <% if @unfound_items.any? %>
+          <% @unfound_items.each do |item| %>
+            <div class="item-card">
+              <div class="item-header">
+                <h4><%= link_to item.title, lost_and_found_item_path(item) %></h4>
+              </div>
+              <p class="description"><%= truncate(item.description, length: 80) %></p>
+              <p class="meta"><strong>Location:</strong> <%= item.location %> | <strong>Reported by:</strong> <%= item.reported_by_user.username %></p>
+              <% if item.reported_by_user_id != current_user.id %>
+                <%= link_to "Mark as Found", mark_found_lost_and_found_item_path(item), method: :patch, class: "btn btn-sm btn-success" %>
+              <% end %>
+              <%= link_to "View", lost_and_found_item_path(item), class: "btn btn-sm btn-info" %>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="no-items">No unfound items at the moment.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="widget-section">
+      <h3>My Reported Items</h3>
+      <div class="items-list">
+        <% if @user_items.any? %>
+          <% @user_items.each do |item| %>
+            <div class="item-card">
+              <div class="item-header">
+                <h4><%= link_to item.title, lost_and_found_item_path(item) %></h4>
+                <span class="status-badge <%= item.status %>"><%= item.status.upcase %></span>
+              </div>
+              <p class="description"><%= truncate(item.description, length: 80) %></p>
+              <p class="meta"><strong>Location:</strong> <%= item.location %></p>
+              <% if item.found? && item.found_by_user %>
+                <p class="found-info"><strong>Found by:</strong> <%= item.found_by_user.username %></p>
+              <% end %>
+              <%= link_to "Edit", edit_lost_and_found_item_path(item), class: "btn btn-sm btn-primary" %>
+              <%= link_to "View", lost_and_found_item_path(item), class: "btn btn-sm btn-info" %>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="no-items">You haven't reported any items.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="widget-actions">
+      <%= link_to "View All Items", lost_and_found_items_path, class: "btn btn-primary" %>
+      <%= link_to "Report New Item", new_lost_and_found_item_path, class: "btn btn-success" %>
+    </div>
+  </div>
+</div>

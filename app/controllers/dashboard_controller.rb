@@ -3,6 +3,8 @@ class DashboardController < ApplicationController
 
 
   def index
+    @unfound_items = LostAndFoundItem.unfound
+    @user_items = current_user.reported_lost_and_found_items
   end
 
   private

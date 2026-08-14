@@ -1,8 +1,9 @@
 require "active_support/core_ext/integer/time"
+require 'dotenv'
 
 Rails.application.configure do
+  Dotenv.load('.env')
   # Settings specified here will take precedence over those in config/application.rb.
-
   config.hosts << "local.homepage:3000"
 
   # Make code changes take effect immediately without server restart.
@@ -10,6 +11,8 @@ Rails.application.configure do
 
   # Do not eager load code on boot.
   config.eager_load = false
+
+  # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Show full error reports.
   config.consider_all_requests_local = true

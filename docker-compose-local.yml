@@ -3,10 +3,11 @@ services:
     image: postgres
     volumes:
       - db:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:5433:5432"
     environment:
-      POSTGRES_PASSWORD: /run/secrets/postgres_password
-    secrets:
-      - postgres_password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
   https-portal:
     image: steveltn/https-portal:1
     ports:
@@ -19,10 +20,5 @@ services:
     volumes: 
       - ./https-portal-data:/var/lib/https-portal
 
-secrets:
-  postgres_password:
-    file: secrets/postgres_password.txt
-
 volumes:
   db:
-  app-data:

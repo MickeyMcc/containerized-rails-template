@@ -23,4 +23,10 @@ Rails.application.routes.draw do
   get "logout", to: "sessions#destroy", as: :logout_get
 
   get "dashboard", to: "dashboard#index"
+
+  resources :lost_and_found_items do
+    member do
+      patch :mark_found
+    end
+  end
 end

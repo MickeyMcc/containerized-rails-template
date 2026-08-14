@@ -1,0 +1,32 @@
+<div class="lost-and-found-items">
+  <h2>Lost & Found Items</h2>
+  
+  <%= link_to "Report New Item", new_lost_and_found_item_path, class: "btn btn-primary" %>
+  
+  <div class="items-list">
+    <% if @items.any? %>
+      <% @items.each do |item| %>
+        <div class="item-card">
+          <div class="item-header">
+            <h3><%= link_to item.title, item %></h3>
+            <span class="status-badge <%= item.status %>"><%= item.status.upcase %></span>
+          </div>
+          <p class="description"><%= truncate(item.description, length: 100) %></p>
+          <p class="location"><strong>Location:</strong> <%= item.location %></p>
+          <p class="reported-by"><strong>Reported by:</strong> <%= item.reported_by_user.username %></p>
+          <% if item.found? && item.found_by_user %>
+            <p class="found-by"><strong>Found by:</strong> <%= item.found_by_user.username %></p>
+          <% end %>
+          <div class="item-actions">
+            <%= link_to "View", item, class: "btn btn-sm btn-info" %>
+            <% if item.unfound? && item.reported_by_user_id != current_user.id %>
+              <%= link_to "Mark as Found", mark_found_lost_and_found_item_path(item), method: :patch, class: "btn btn-sm btn-success" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="no-items">No lost and found items yet.</p>
+    <% end %>
+  </div>
+</div>
