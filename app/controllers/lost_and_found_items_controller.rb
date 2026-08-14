@@ -1,6 +1,6 @@
 class LostAndFoundItemsController < ApplicationController
   before_action :authenticated_only
-  before_action :set_item, only: [:show, :edit, :update, :mark_found]
+  before_action :set_item, only: [:show, :edit, :update, :mark_found, :destroy]
 
   def index
     @items = LostAndFoundItem.unfound
@@ -37,15 +37,26 @@ class LostAndFoundItemsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize_owner!
+    @item.destroy
+    redirect_to lost_and_found_items_url, notice: "Item was successfully deleted."
+  end
+
   def mark_found
-    @item.update(status: "found", found_by_user_id: current_user.id)
-    redirect_to @item, notice: "Item marked as found!"
+    if @item.update(status: "found", found_by_user_id: current_user.id)
+      redirect_to @item, notice: "Item marked as found!"
+    else
+      redirect_to @item, alert: "Unable to mark item as found."
+    end
   end
 
   private
 
   def set_item
     @item = LostAndFoundItem.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to lost_and_found_items_url, alert: "Item not found."
   end
 
   def item_params
@@ -53,7 +64,7 @@ class LostAndFoundItemsController < ApplicationController
   end
 
   def authorize_owner!
-    redirect_to root_path, alert: "Not authorized" unless @item.reported_by_user_id == current_user.id
+    redirect_to lost_and_found_items_url, alert: "Not authorized" unless @item.reported_by_user_id == current_user.id
   end
 
   def authenticated_only
